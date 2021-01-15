@@ -1,9 +1,11 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CreateListDto } from './dto/create-list.dto';
 import { List } from './list.entity';
 import { ListService } from './list.service';
 
 @Controller('rest/list')
+@UseGuards(JwtAuthGuard)
 export class ListController {
   constructor(private readonly listService: ListService) {}
 

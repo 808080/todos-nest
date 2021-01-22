@@ -10,7 +10,7 @@ export class AppController {
   ) {}
 
   @Post('auth/login')
-  async login(@Body() loginUserDto: LoginUserDto) {
+  login(@Body() loginUserDto: LoginUserDto) {
     return this.authService.login(loginUserDto);
   }
 

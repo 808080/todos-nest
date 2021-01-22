@@ -4,20 +4,21 @@ import { LoginUserDto } from 'src/model/user/dto/login-user.dto';
 import { JwtService } from '@nestjs/jwt';
 import { UnauthorizedException } from '@nestjs/common';
 import { compare } from 'bcrypt';
+import { User } from 'src/model/user/user.entity';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
-  ) {}
+  ) { }
 
   async validateUser(loginUserDto: LoginUserDto): Promise<any> {
-    const user = await this.userService.findAuthUser(loginUserDto.login);
+    const user: User = await this.userService.findAuthUser(loginUserDto.login);
     const isMatch = await compare(loginUserDto.password, user.password);
     if (user && isMatch) {
-      delete user.password;
-      return user;
+      const { password, ...result } = user;
+      return result;
     }
     return null;
   }
